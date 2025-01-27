@@ -1,3 +1,5 @@
+# Menu Backend API
+
 After Cloning the repository, we need to install the npm packages and add .env file
 the env file contains PORT = 5000, MONGO_URI and JWT_SECRET
 
@@ -10,7 +12,6 @@ To login, first we need to post on the route "http://localhost:5000/api/users" t
 then with the same credentials we can login.
 
 
-# Menu Backend API
 
 ## Features
 
@@ -19,6 +20,40 @@ then with the same credentials we can login.
 - **Items**: Create, update, get all items under a category, get all items which belong to one subcategory, get an item by ID, delete items.
 
 ---
+
+##Routes
+User
+
+router.post('/', registerUser)
+router.post('/login', loginUser)
+router.get('/me', protect, getMe)
+
+Category
+
+router.route('/').post(protect, createCategory).get(getAllCategories)
+router.route('/:id').get(getCategoryById).put(protect, updateCategory).delete(protect, deleteCategory)
+
+Sub Category
+
+
+router.post('/:categoryId/subcategories', protect, createSubCategory)
+
+router.get('/:categoryId/subcategories', getAllSubCategories)
+
+router.get('/:categoryId/subcategories/:id', getSubCategoryById)
+router.put('/:categoryId/subcategories/:id', protect, updateSubCategory)
+router.delete('/:categoryId/subcategories/:id', protect, deleteSubCategory)
+
+Items
+
+router.post('/:categoryId/subcategories/:subcategoryId?/items', protect, createItem);
+router.get('/:categoryId/subcategories/:subcategoryId?/items',  getAllItems);
+router.get('/:categoryId/items',  getAllItemsOfOneCategory);
+router.get('/:categoryId/subcategories/:subcategoryId?/items/:id',  getItemById);
+router.delete('/:categoryId/subcategories/:subcategoryId?/items/:id',  deleteItemById);
+router.put('/:categoryId/subcategories/:subcategoryId?/items/:id',  updateItem);
+
+
 
 ## Technologies Used
 
@@ -31,9 +66,5 @@ then with the same credentials we can login.
 
 
 
-### Clone the Repository
 
-```bash
-git clone https://github.com/yourusername/ecommerce-backend.git
-cd ecommerce-backend
 
