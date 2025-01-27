@@ -30,8 +30,12 @@ router.get('/me', protect, getMe)
 
 Category
 
-router.route('/').post(protect, createCategory).get(getAllCategories)
-router.route('/:id').get(getCategoryById).put(protect, updateCategory).delete(protect, deleteCategory)
+
+router.route('/').post(protect, createCategory).get(getAllCategories);
+
+router.route('/:id').put(protect, updateCategory).delete(protect, deleteCategory);
+
+router.route('/search').get(getCategoryByNameOrId);
 
 Sub Category
 
@@ -40,7 +44,8 @@ router.post('/:categoryId/subcategories', protect, createSubCategory)
 
 router.get('/:categoryId/subcategories', getAllSubCategories)
 
-router.get('/:categoryId/subcategories/:id', getSubCategoryById)
+router.get('/:categoryId/subcategories/search', getSubCategoryByNameOrId)
+
 router.put('/:categoryId/subcategories/:id', protect, updateSubCategory)
 router.delete('/:categoryId/subcategories/:id', protect, deleteSubCategory)
 
@@ -49,7 +54,7 @@ Items
 router.post('/:categoryId/subcategories/:subcategoryId?/items', protect, createItem);
 router.get('/:categoryId/subcategories/:subcategoryId?/items',  getAllItems);
 router.get('/:categoryId/items',  getAllItemsOfOneCategory);
-router.get('/:categoryId/subcategories/:subcategoryId?/items/:id',  getItemById);
+router.get('/:categoryId/subcategories/:subcategoryId?/items/search',  getItembyName);
 router.delete('/:categoryId/subcategories/:subcategoryId?/items/:id',  deleteItemById);
 router.put('/:categoryId/subcategories/:subcategoryId?/items/:id',  updateItem);
 
