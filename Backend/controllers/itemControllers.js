@@ -72,9 +72,10 @@ const getAllItemsOfOneCategory = asyncHandler(async (req, res) => {
  // @desc   getItem by id
 // @route   PUT /api/categories/:categoryId/subcategories/:subcategoryId?/items
 // @access  private
-const getItemById = asyncHandler(async (req, res) => {
-  const { categoryId, subcategoryId, id } = req.params;  // Subcategory ID is optional
-  const item = await Item.findById({_id: id}).populate('category').populate('subcategory');  
+const getItembyName = asyncHandler(async (req, res) => {
+  const { name } = req.query;  // Subcategory ID is optional
+  const item = await Item.find({
+    name: { $regex: name, $options: 'i' }}).populate('category').populate('subcategory');
 
   if(!item){
     res.status(404)
@@ -132,4 +133,4 @@ const updateItem = asyncHandler(async (req, res) => {
 
   
 
-module.exports = {createItem, getAllItems, getAllItemsOfOneCategory, getItemById, deleteItemById, updateItem}
+module.exports = {createItem, getAllItems, getAllItemsOfOneCategory, getItembyName, deleteItemById, updateItem}

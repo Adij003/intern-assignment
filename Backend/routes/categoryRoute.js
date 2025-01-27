@@ -3,13 +3,19 @@ const router = express.Router();
 const {
   createCategory,
   getAllCategories,
-  getCategoryById,
+  getCategoryByNameOrId,
   updateCategory,
   deleteCategory,
 } = require('../controllers/categoryController');
 const { protect } = require('../middleware/authMiddleware');
 
-router.route('/').post(protect, createCategory).get(getAllCategories)
-router.route('/:id').get(getCategoryById).put(protect, updateCategory).delete(protect, deleteCategory)
+// Routes for creating a category and fetching all categories
+router.route('/').post(protect, createCategory).get(getAllCategories);
+
+// Route for updating and deleting a category by ID
+router.route('/:id').put(protect, updateCategory).delete(protect, deleteCategory);
+
+// Route for getting a category by name or ID
+router.route('/search').get(getCategoryByNameOrId);
 
 module.exports = router;

@@ -57,11 +57,20 @@ const createSubCategory = asyncHandler(async (req, res) => {
     // @route   GET /api/categories/:categoryId/subcategories
     // @access  Public
 
-    const getSubCategoryById = asyncHandler(async (req, res) => {
-        const { categoryId, id } = req.params; 
+    const getSubCategoryByNameOrId = asyncHandler(async (req, res) => {
+        const { name, id } = req.query; 
         
+        const filter = {};
+        if (id) {
+          filter._id = id; // Search by ID
+        } else if (name) {
+          filter.name = name; // Search by name
+        } else {
+          res.status(400);
+          throw new Error('Please provide either a name or an ID to search');
+        }
         
-       const subCategory = await SubCategory.findById({_id: id, categoryId});
+       const subCategory = await SubCategory.findOne(filter).populate('category', 'name description')
          
            if (!subCategory) {
              res.status(404);
@@ -112,4 +121,4 @@ const createSubCategory = asyncHandler(async (req, res) => {
         res.status(200).json({ message: 'Subcategory deleted successfully' })
       });
 
-module.exports = {createSubCategory, getAllSubCategories, getSubCategoryById , updateSubCategory, deleteSubCategory}
+module.exports = {createSubCategory, getAllSubCategories, getSubCategoryByNameOrId , updateSubCategory, deleteSubCategory}

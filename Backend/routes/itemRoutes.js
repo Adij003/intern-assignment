@@ -4,7 +4,7 @@ const {
     createItem,
   getAllItems,
   getAllItemsOfOneCategory,
-  getItemById,
+  getItembyName,
   deleteItemById,
   updateItem
 //   getAllCategories,
@@ -17,7 +17,7 @@ const { protect } = require('../middleware/authMiddleware');
 router.post('/:categoryId/subcategories/:subcategoryId?/items', protect, createItem);
 router.get('/:categoryId/subcategories/:subcategoryId?/items',  getAllItems);
 router.get('/:categoryId/items',  getAllItemsOfOneCategory);
-router.get('/:categoryId/subcategories/:subcategoryId?/items/:id',  getItemById);
+router.get('/:categoryId/subcategories/:subcategoryId?/items/search',  getItembyName);
 router.delete('/:categoryId/subcategories/:subcategoryId?/items/:id',  deleteItemById);
 router.put('/:categoryId/subcategories/:subcategoryId?/items/:id',  updateItem);
 

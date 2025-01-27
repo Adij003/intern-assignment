@@ -35,20 +35,28 @@ const getAllCategories = asyncHandler(async (req, res) => {
 // @desc    get category by id
 // @route   GET /api/categories/:id
 // @access  Public
-const getCategoryById = asyncHandler(async (req, res) => {
-    const { id } = req.params;
-  
-    
-    const category = await Category.findById(id);
-  
-    if (!category) {
-      res.status(404);
-      throw new Error('Category not found');
-    }
-  
-    
-    res.status(200).json(category);
-  });
+// @desc    Get a category by name or ID along with its attributes
+// @route   GET /api/categories/search
+// @access  Public
+const getCategoryByNameOrId = asyncHandler(async (req, res) => {
+  const { id, name } = req.query; 
+
+  let category;
+
+  if (id) {
+    category = await Category.findById(id);
+  } else if (name) {
+    category = await Category.findOne({ name: new RegExp(`^${name}$`, 'i') }); 
+  }
+
+  if (!category) {
+    res.status(404);
+    throw new Error('Category not found');
+  }
+
+  res.status(200).json(category);
+});
+
 
     // @desc    update category by id
     // @route   PUT /api/categories/:id
@@ -93,7 +101,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
 module.exports = {
   createCategory,
   getAllCategories,
-  getCategoryById,
+  getCategoryByNameOrId,
   updateCategory,
   deleteCategory
 };
