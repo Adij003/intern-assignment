@@ -20,6 +20,8 @@ app.get('/', (req, res) => {
 app.use('/api/users', require('./routes/userRoute'))
 app.use('/api/categories', require('./routes/categoryRoute'));
 app.use('/api/categories', require('./routes/subCategoryRoute')); 
+app.use('/api/categories', require('./routes/itemRoutes')); 
+
 
 app.use(errorHandler)
 
